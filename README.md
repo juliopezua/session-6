@@ -177,15 +177,11 @@ Refactor our codebase and move files in order to make our application more easil
 
 * `recipe-list/recipe-list.module.js` - a new file that declares a module
 ```
-'use strict';
-
 angular.module('recipeList', []);
 ```
 
 * `app.module.js` - add recipeList as a requirement
 ```
-'use strict';
-
 angular.module('recipeApp', [
     'recipeList'
 ]);
@@ -193,8 +189,6 @@ angular.module('recipeApp', [
 
 * `recipe-list/recipe-list.component.js` - unchanged!
 ```
-'use strict';
-        
 angular.module('recipeApp').component('recipeList', {
 ```
 Be sure to include references to each in `index.html`:
