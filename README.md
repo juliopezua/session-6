@@ -1,10 +1,10 @@
 #MEAN Session Six
 
 
-##Sushi - cont.
+##Sushi - continued
 
 
-###Componentize
+###Angularize and Componentize
 
 `<script src="https://code.angularjs.org/1.5.8/angular.js"></script>`
 
