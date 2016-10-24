@@ -154,6 +154,7 @@ Note the use of templateUrl and that this link it relative to index.html
 }
 
 a {
+    //make this change in the basics sass file:
     color: $reddish;
 }
 ```
