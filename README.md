@@ -298,43 +298,65 @@ angular.module('recipeApp').component('recipeList', {
 
 ###Adding Routing to Display Individual Recipes
 
+To add the detailed view, we are going to turn index.html into what we call a "layout template". This is a template that is common for all views in our application. Other "partial templates" are then included into this layout template depending on the current "route" — the view that is currently displayed to the user.
+
 Note the additionof recipe1309.json to the data directory. 
 
 Use the `recipe.name` expression in the html template:
 
-`<h1><a href="#recipes/{{ recipe.name }} ">{{ recipe.title }}</a></h1>`
-
+`<h1><a href="#!recipes/{{ recipe.name }} ">{{ recipe.title }}</a></h1>`
 
 Add ngRoute to index.html after the main angular load:
 
 `<script src="https://code.angularjs.org/1.5.8/angular-route.js"></script>`
 
+A module's .config() method gives us access to the available providers for configuration. To make the providers, services and directives defined in ngRoute available to our application, we need to add ngRoute as a dependency to our recipeApp module.
 
-We need to add `ngRoute` as a dependency for our app-module.js:
+Add `ngRoute` as a dependency for our app-module.js:
 
 ```
-'use strict';
-
 angular.module('recipeApp', [
     'ngRoute',
     'recipeList'
 ]);
 ```
 
+Application routes in Angular are declared via the $routeProvider, which is the provider of the $route service. This service makes it easy to wire together controllers, view templates, and the current URL location in the browser. Using this feature, we can implement deep linking, which lets us utilize the browser's history (back and forward navigation) and bookmarks.
+
+In addition to the core services and directives, we can also configure the $route service (using it's provider) for our application. In order to be able to quickly locate the configuration code, we put it into a separate file and used the .config suffix.
+
 Create an app.config file in the app folder:
 ```js
-angular.module('recipeApp').
+angular.
+    module('recipeApp').
     config(['$locationProvider', '$routeProvider',
         function config($locationProvider, $routeProvider) {
-            $locationProvider.hashPrefix('!');
+            // $locationProvider.hashPrefix('!');
             $routeProvider.
                 when('/', {
                     template: '<recipe-list></recipe-list>'
+                }).
+                when('/recipes/:recipeId', {
+                    template: '<recipe-detail></recipe-detail>'
                 }).
                 otherwise('/recipes');
         }
     ]);
 ```
+
+Now, clicking on the inidivual recipe shows a new addres in the browser's location bar.
+
+We optionally use $locationProvider.hashPrefix() to set the hash-prefix (`#`) to !. This prefix will appear in the links to our client-side routes, right after the hash (`#`) symbol and before the actual path (e.g. index.html#!/some/path).
+
+Setting a prefix is not necessary, but it is considered a good practice (for reasons that are outside the scope of this tutorial). ! is the most commonly used prefix.
+
+Uncomment the hash prefix and check that the recipe-template includes the ! bang:
+
+```html
+<h1><a href="#!recipes/{{ recipe.name }} ">{{ recipe.title }}</a></h1>
+```
+
+Refresh the page and try clicking on the links again.
 
 Add a link to `app.config.js` to index.html (after the app.module.js):
 
@@ -381,34 +403,6 @@ angular.module('recipeApp', [
     'recipeList'
 ]);
 ```
-
-Edit the config file to create the routing for URL parameters:
-
-```
-angular.
-    module('recipeApp').
-    config(['$locationProvider', '$routeProvider',
-        function config($locationProvider, $routeProvider) {
-            $locationProvider.hashPrefix('!');
-            $routeProvider.
-                when('/', {
-                    template: '<recipe-list></recipe-list>'
-                }).
-                when('/recipes/:recipeId', {
-                    template: '<recipe-detail></recipe-detail>'
-                }).
-                otherwise('/recipes');
-        }
-    ]);
-```
-
-Alter the recipe-template to include the ! bang:
-```
-<h1><a href="#!recipes/{{ recipe.name }} ">{{ recipe.title }}</a></h1>
-```
-
-```
-
 
 Link to recipe-detail files:
 
