@@ -41,9 +41,9 @@ And add the component to `index.html`. Note the hyphenated usage:
 </article>
 ```
 
-You should see the template defined in the controller appear.
+You should see the template defined in the controller appear in the browser.
 
-Add the controller to `recipe-list.component.js`:
+Add a controller to `recipe-list.component.js`:
 ```js
 angular.module('recipeApp').component('recipeList', {
     template:
@@ -53,7 +53,9 @@ angular.module('recipeApp').component('recipeList', {
     }
 });
 ```
+
 Add the data to the controller from data/recipe.json:
+
 ```js
 angular.module('recipeApp').component('recipeList', {
   template:
