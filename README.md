@@ -27,14 +27,14 @@ angular.module('recipeApp').component('recipeList', {
 });
 ```
 
-Add the app.module and recipe-list.component to index.html:
+Add the app.module and recipe-list.component to `index.html`:
 
 ```html
 <script src="app.config.js"></script>
 <script src="recipe-list/recipe-list.component.js"></script>
 ```
 
-And add the component to the page:
+And add the component to `index.html`. Note the hyphenated usage:
 ```html
 <article ng-app="recipeApp">
     <recipe-list></recipe-list>
