@@ -212,4 +212,44 @@ img {
   outline: 1px solid rgba(255, 0, 0, 0.5);
 }
 
+.p-home article {
+  margin-left: 1rem;
+}
+
+.recipes-list {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.recipes-list li {
+  box-sizing: border-box;
+  background: rgba(240, 223, 180, 0.25);
+  padding: 0.875rem;
+  flex: 1 0 100%;
+  margin-top: 0.875rem;
+  margin-right: 0.875rem;
+}
+
+@media (min-width: 46.25rem) {
+  .recipes-list li {
+    flex: 1 0 calc(50% - 0.875rem);
+  }
+}
+
+.recipes-list img {
+  width: 30%;
+  float: left;
+  margin-right: 0.875rem;
+}
+
+@media (min-width: 46.25rem) {
+  .recipes-list img {
+    width: 50%;
+  }
+}
+
+a {
+  color: #600;
+}
+
 /*# sourceMappingURL=styles.css.map */
