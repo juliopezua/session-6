@@ -191,6 +191,7 @@ angular.module('recipeApp', [
 ```
 angular.module('recipeApp').component('recipeList', {
 ```
+
 Be sure to include references to each in `index.html`:
 
 ```html
