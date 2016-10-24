@@ -133,6 +133,11 @@ article {
 a {
     color: $reddish;
 }
+
+img {
+    width: 100%;
+    height: auto;
+}
 ```
 
 * create a new `_recipes.scss` file
@@ -564,15 +569,6 @@ We shoud be able to click on one of the images in the list to swap out the main 
 
 
 ###SASS
-
-Remove the img float sass from `_basics.scss` and add:
-
-```css
-img {
-	width: 100%;
-	height: auto;
-}
-```
 
 Add sass to `_recipes.scss` to control the display of the main image:
 
