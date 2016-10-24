@@ -32,12 +32,20 @@ angular.module('recipeApp').component('recipeList', {
 });
 ```
 
+Add the app.module and recipe-list.component to index.html:
+
+```html
+
+```
+
 And add the component to the page:
 ```html
-<div ng-app="recipeApp">
+<article ng-app="recipeApp">
     <recipe-list></recipe-list>
-</div>
+</article>
 ```
+
+You should see the template defined in the controller appear.
 
 Add the controller to `recipe-list.component.js`:
 ```js
@@ -49,7 +57,7 @@ angular.module('recipeApp').component('recipeList', {
     }
 });
 ```
-Add the data to the controller:
+Add the data to the controller from data/recipe.json:
 ```js
 angular.module('recipeApp').component('recipeList', {
   template:
@@ -104,11 +112,13 @@ template:
 </ul>
 `,
 ```
-Make it an external file:
+
+Convert the template into an external file:
+
 ```js
 templateUrl: 'recipe-list/recipe-list.template.html',
 ```
-Note - this link it relative to index.html
+Note the use of templateUrl and that this link it relative to index.html
 
 ###Styling the Recipes
 
@@ -148,9 +158,10 @@ a {
 }
 ```
 
-###Breakout
 
+###File Organization
 
+Refactor our codebase and move files in order to make our application more easily expandable and maintainable.
 
 * `recipe-list/recipe-list.module.js` - a new file that declares a module
 ```
@@ -168,7 +179,7 @@ angular.module('recipeApp', [
 ]);
 ```
 
-* `recipe-list/recipe-list.component.js` - unchanged
+* `recipe-list/recipe-list.component.js` - unchanged!
 ```
 'use strict';
         
@@ -204,7 +215,7 @@ The [filter](https://docs.angularjs.org/api/ng/filter/filter) function uses the 
 
 ###Two Way Data Binding
 
-Add a `<select>` element bound to `$ctrl.orderProp`, so that our users can pick from the two provided sorting options.
+Add a `<select>` element bound to `$ctrl.orderProp` to the top paragraph, so that our users can pick from the two provided sorting options.
 
 ```
   Sort by:
@@ -213,6 +224,7 @@ Add a `<select>` element bound to `$ctrl.orderProp`, so that our users can pick 
     <option value="date">Newest</option>
   </select>
 ```
+Note the values - these are from the json.
 
 Chained the filter filter with the orderBy filter to further process the input for the repeater. 
 
@@ -228,22 +240,30 @@ Add a line to the controller in `recipe-list.component.js` after the recipes arr
 
 ###Fetching the Data
 
-Let's use `recipes.json` in the data folder instead of keeping the model in the controller. 
+Here we use `recipes.json` in the data folder instead of keeping the model in the controller. 
+
+We fetch the dataset from our server using one of Angular's built-in services called [$http](https://docs.angularjs.org/api/ng/service/$http). We will use Angular's [dependency injection (DI)](https://docs.angularjs.org/guide/di) to provide the service to the recipeList component's controller.
 
 $http
-
+* a service
 * built into core Angular
-* need to make it available to our controller
+* need to make it available to our controller via dependency injection.
 
-In `recipe-list.component.js` pass $http into the controller:
+In `recipe-list.component.js` make $http available to the controller:
 
 `controller: function RecipeListController($http) { `
 
-Create var `self` - since we are making the assignment of the recipes property in a callback function (`.then(function (response) {}`), where the `this` value is not defined, we  introduce a local variable called self that points back to the RecipeListController.
+Create var `self` - since we are making the assignment of the recipes property in a callback function (`.then(function (response) {}`), where the `this` value is not defined, we introduce a local variable called self that points back to the RecipeListController.
 
 ```js
 controller: function RecipeListController($http) {
-        var self = this;
+    var self = this;
+```
+
+Change the orderProp statement to refer to self:
+
+```js
+self.orderProp = 'date';
 ```
 
 Use `get` method of `$http` to fetch the json from the data folder:
@@ -276,8 +296,9 @@ angular.module('recipeApp').component('recipeList', {
 
 
 
+###Adding Routing to Display Individual Recipes
 
-###Preparing for Routing
+Note the additionof recipe1309.json to the data directory. 
 
 Use the `recipe.name` expression in the html template:
 
