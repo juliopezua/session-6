@@ -13,19 +13,14 @@ Components take the template (html) and controller and unify them into a single 
 Create `app.module.js` in the app directory and link to it in `index.html`:
 
 ```
-'use strict';
-
 angular.module('recipeApp', []);
 ```
-
-[Article on use strict](http://ejohn.org/blog/ecmascript-5-strict-mode-json-and-more/)
 
 This defines the `recipeApp` [module](https://docs.angularjs.org/guide/module).
 
 Create `recipe-list.component.js` in a `recipe-list` directory and link it to index.html:
-```
-'use strict';
 
+```
 angular.module('recipeApp').component('recipeList', {
     template:
     `<h1>test</h1>`
