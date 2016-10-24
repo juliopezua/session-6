@@ -166,7 +166,6 @@ a {
 
 
 
-
 ###File Organization
 
 Refactor our codebase and move files in order to make our application more easily expandable and maintainable.
@@ -287,7 +286,7 @@ $http.get('data/recipes.json').then(function (response) {
 
 Here is the complete component:
 
-```
+```js
 angular.module('recipeApp').component('recipeList', {
     templateUrl: 'recipe-list/recipe-list.template.html',
 
@@ -523,7 +522,10 @@ angular.module('recipeDetail').component('recipeDetail', {
 });
 ```
 
+
 ##Adding an Image Swapper
+
+To finish this exercise we will implement an image switcher similar to the one we created in earlier lessons.
 
 Set the html template for the detail view to show one main image using this portion of the json: `"mainImageUrl": "img/home/lasagna-1.png",`
 
@@ -549,7 +551,7 @@ And make the following change to the template:
 
 We don't need `"mainImageUrl": "img/home/lasagna-1.png",` in the json since we are now refering to the images array.
 
-Add a list of images we can click on to swap out the main image:
+Add a list of images we can click on to swap out the main image. Note the `ng-click` directive:
 
 ```
 <ul class="recipe-thumbs">
