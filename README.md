@@ -152,7 +152,7 @@ a {
 
 
 
-* `recipe-list.module.js` - a new file that declares a module
+* `recipe-list/recipe-list.module.js` - a new file that declares a module
 ```
 'use strict';
 
@@ -168,12 +168,13 @@ angular.module('recipeApp', [
 ]);
 ```
 
-* `recipe-list.component.js` - unchanged
+* `recipe-list/recipe-list.component.js` - unchanged
 ```
 'use strict';
         
 angular.module('recipeApp').component('recipeList', {
 ```
+Be sure to include references to each in `index.html`:
 
 ```html
 <script src="app.module.js"></script>
@@ -183,7 +184,7 @@ angular.module('recipeApp').component('recipeList', {
 
 ###Search / Sort Filter
 
-Add a search filter to the template:
+Add a search input field to the top of `recipe-list.template.html`. Note the use of [ng-model](https://docs.angularjs.org/api/ng/directive/ngModel):
 
 ```
 <p>
@@ -191,33 +192,44 @@ Add a search filter to the template:
 </p>
 ```
 
-Add a filter to the repeat directive:
+Add a filter to the ng-repeat directive:
 
 `<li ng-repeat="recipe in $ctrl.recipes | filter:$ctrl.query">`
 
-Add a select list to the template
+Data-binding is one of the core features in Angular. When the page loads, Angular binds the value of the input box to the data model variable specified with ngModel and keeps the two in sync.
+
+The data that a user types into the input box (bound to $ctrl.query) is immediately available as a filter input in the list repeater (`recipe in $ctrl.recipes | filter:$ctrl.query`). When changes to the data model cause the repeater's input to change, the repeater updates the DOM to reflect the current state of the model.
+
+The [filter](https://docs.angularjs.org/api/ng/filter/filter) function uses the `$ctrl.query` value to create a new array that contains only those records that match the query.
+
+###Two Way Data Binding
+
+Add a `<select>` element bound to `$ctrl.orderProp`, so that our users can pick from the two provided sorting options.
 
 ```
-<p>
   Sort by:
   <select ng-model="$ctrl.orderProp">
     <option value="title">Alphabetical</option>
     <option value="date">Newest</option>
   </select>
-</p>
 ```
+
+Chained the filter filter with the orderBy filter to further process the input for the repeater. 
+
+[`orderBy`](https://docs.angularjs.org/api/ng/filter/orderBy) is a filter that takes an input array, copies it and reorders the copy which is then returned.
 
 `<li ng-repeat="recipe in $ctrl.recipes | filter:$ctrl.query | orderBy:$ctrl.orderProp">`
 
-Add to the controller in `recipe-list.component.js` after the recipes array:
+Add a line to the controller in `recipe-list.component.js` after the recipes array that sets the default value of orderProp to age. If we had not set a default value here, the orderBy filter would remain uninitialized until the user picked an option from the drop-down menu.
 
 `this.orderProp = 'date';`
 
 
 
+
 ###Fetching the Data
 
-Let's use recipes.json in the data folder instead of keeping the model in the controller. 
+Let's use `recipes.json` in the data folder instead of keeping the model in the controller. 
 
 $http
 
