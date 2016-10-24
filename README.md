@@ -30,7 +30,7 @@ angular.module('recipeApp').component('recipeList', {
 Add the app.module and recipe-list.component to `index.html`:
 
 ```html
-<script src="app.config.js"></script>
+<script src="app.module.js"></script>
 <script src="recipe-list/recipe-list.component.js"></script>
 ```
 
@@ -41,9 +41,9 @@ And add the component to `index.html`. Note the hyphenated usage:
 </article>
 ```
 
-You should see the template defined in the controller appear in the browser.
+You should now see the template defined in the controller appear in the browser.
 
-Add a controller to `recipe-list.component.js`:
+Add an empty controller to `recipe-list.component.js`. Note the comma after the template:
 ```js
 angular.module('recipeApp').component('recipeList', {
     template:
