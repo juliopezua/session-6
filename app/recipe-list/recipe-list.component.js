@@ -1,6 +1,6 @@
 angular.module('recipeApp').component('recipeList', {
     template:
-    `<ul>
+    `<ul class="recipes-list">
     <li ng-repeat="recipe in $ctrl.recipes">
         <img ng-src="img/home/{{ recipe.image }}">
         <h1><a href="#0">{{ recipe.title }}</a></h1>

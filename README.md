@@ -133,6 +133,11 @@ article {
 a {
     color: $reddish;
 }
+
+img {
+    width: 100%;
+    height: auto;
+}
 ```
 
 * create a new `_recipes.scss` file

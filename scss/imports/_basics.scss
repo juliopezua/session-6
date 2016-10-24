@@ -13,6 +13,7 @@ html, body {
 
 a {
 	text-decoration: none;
+	color: $reddish;
 }
 ul {
 	list-style: none;
@@ -80,7 +81,7 @@ article {
 		color: $reddish;
 	}
 	@media (min-width: $break-one) {
-		margin: 2em 0 0 12em;
+		margin: 2em 0 0 2em;
 	}
 }
 
@@ -104,7 +105,8 @@ ul {
 	list-style: none;
 }
 img {
-	float: right;
+	width: 100%;
+	height: auto;
 }
 /*nav a:before {
 	padding-left: 1em;
