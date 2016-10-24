@@ -226,7 +226,6 @@ Add a line to the controller in `recipe-list.component.js` after the recipes arr
 
 
 
-
 ###Fetching the Data
 
 Let's use `recipes.json` in the data folder instead of keeping the model in the controller. 
