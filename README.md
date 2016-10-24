@@ -122,13 +122,25 @@ Note the use of templateUrl and that this link it relative to index.html
 
 ###Styling the Recipes
 
+Make these changes in the _basics sass file:
+
+```css
+article {
+    ...
+	@media (min-width: $break-one) {
+		margin: 2em 1em 0 1em;
+	}
+}
+
+a {
+    color: $reddish;
+}
+```
+
 * create a new `_recipes.scss` file
 * add it to the imports in `styles.scss
 * add a class to the ul `<ul class="recipes-list">`
 ```css
-.p-home article {
-    margin-left: 1rem;
-}
 .recipes-list {
     display: flex;
     flex-wrap: wrap;
@@ -152,12 +164,9 @@ Note the use of templateUrl and that this link it relative to index.html
         }
     }
 }
-
-a {
-    //make this change in the basics sass file:
-    color: $reddish;
-}
 ```
+
+
 
 
 ###File Organization
@@ -556,7 +565,14 @@ We shoud be able to click on one of the images in the list to swap out the main 
 
 ###SASS
 
-Remove the img float sass from `_basics.scss`
+Remove the img float sass from `_basics.scss` and add:
+
+```css
+img {
+	width: 100%;
+	height: auto;
+}
+```
 
 Add sass to `_recipes.scss` to control the display of the main image:
 
@@ -579,7 +595,9 @@ Add sass to `_recipes.scss` to control the display of the main image:
 
 ##Homework
 
-1. 
+1. Complete the json file for lasagne adding additional ingredients and directions. You can use [this recipe](http://allrecipes.com/recipe/23600/worlds-best-lasagna/) as an example.
+
+2. Create a wide screen view for the recipe by extending the recipe sass file and the template. 
 
 
 ##Reading
