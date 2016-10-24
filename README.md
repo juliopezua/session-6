@@ -344,7 +344,14 @@ angular.
     ]);
 ```
 
-Now, clicking on the inidivual recipe shows a new addres in the browser's location bar.
+* `otherwise` - defines a fallback route to redirect to, when no route definition matches the current URL
+* `:recipeId` - the $route service uses the route declaration — '/phones/:recipeId' — as a template that is matched against the current URL. All variables defined with the : prefix are extracted into the (injectable) $routeParams object.
+
+Add a link to `app.config.js` to index.html (after the app.module.js):
+
+`<script src="app.config.js"></script>`
+
+Now, clicking on the inidivual recipe shows a new address in the browser's location bar. (Resist the tempatation to use the navbar on the top of the document for now. It is not part of the angular application.)
 
 We optionally use $locationProvider.hashPrefix() to set the hash-prefix (`#`) to !. This prefix will appear in the links to our client-side routes, right after the hash (`#`) symbol and before the actual path (e.g. index.html#!/some/path).
 
@@ -356,23 +363,34 @@ Uncomment the hash prefix and check that the recipe-template includes the ! bang
 <h1><a href="#!recipes/{{ recipe.name }} ">{{ recipe.title }}</a></h1>
 ```
 
-Refresh the page and try clicking on the links again.
+Refresh the page and try clicking on the links again. Note the `!`.
 
-Add a link to `app.config.js` to index.html (after the app.module.js):
+Edit index.html from:
 
-`<script src="app.config.js"></script>`
+```html
+<article ng-app="recipeApp">
+	<recipe-list></recipe-list>
+</article>
+```
 
+To:
 
-Edit index.html:
 ```html
 <article ng-app="recipeApp">
     <div ng-view></div>
 </article>
 ```
+The $route service is usually used in conjunction with the ngView directive. The role of the ngView directive is to include the view template for the current route into the layout template.
+
+Note that the config file makes provision for a recipe-detail template. We will create that now.
+
+###Creating the Recipe Details Component
+
+Create a `recipe-detail` directory in app.
 
 Create stubs for recipe details in a new `recipe-detail` directory:
 
-`recipe-detail.module.js`
+`recipe-detail/recipe-detail.module.js`:
 
 ```
 angular.module('recipeDetail', [
@@ -380,7 +398,9 @@ angular.module('recipeDetail', [
 ]);
 ```
 
-recipe-detail.component.js
+We inject the routeParams service into our controller so that we can extract the recipeId.
+
+`recipe-detail.component.js`
 ```
 angular.
     module('recipeDetail').
@@ -423,11 +443,13 @@ Link to recipe-detail files:
 </head>
 ```
 
+Click on the recipe links in the main view. They should take you to our stub template.
 
 
-###Building JSON and the Detail Template
 
-`data/recipe1309.json`:
+###Adding JSON and the Detail Template
+
+Review `data/recipe1309.json`:
 
 ```js
 {
@@ -464,33 +486,44 @@ Create `recipe-detail/recipe-detail.template.html`
 Edit `recipe-detail/recipe-detail.component.js`
 
 ```js
-angular.
-    module('recipeDetail').
-    component('recipeDetail', {
+angular.module('recipeDetail').component('recipeDetail', {
         templateUrl: 'recipe-detail/recipe-detail.template.html',
-        controller: ['$http', '$routeParams',
-            function RecipeDetailController($http, $routeParams) {
-                var self = this;
-
-                $http.get('data/' + $routeParams.recipeId +  '.json').then(function(response){
-                    self.recipe = response.data;
-                });
+        controller: ['$routeParams',
+            function RecipeDetailController($routeParams) {
+                this.recipeId = $routeParams.recipeId;
             }
         ]
     });
 ```
 
+Add $http to the dependancy list for our controller so we can access the json via http and create a variable `self` to point to the controller. 
+
+We use the `self` variable in the response function to make the data available to the controller (variable scope).
+
+```js
+angular.module('recipeDetail').component('recipeDetail', {
+    templateUrl: 'recipe-detail/recipe-detail.template.html',
+    controller: ['$http', '$routeParams',
+        function RecipeDetailController($http, $routeParams) {
+            var self = this;
+
+            $http.get('data/' + $routeParams.recipeId +  '.json').then(function(response){
+                self.recipe = response.data;
+            });
+        }
+    ]
+});
+```
+
 ##Adding an Image Swapper
 
-Set the html template for the detail view to show one main image using this portion of the json:
-`"mainImageUrl": "img/home/lasagna-1.png",`
+Set the html template for the detail view to show one main image using this portion of the json: `"mainImageUrl": "img/home/lasagna-1.png",`
 
 To get the image to display we could add:
 
 `<img ng-src="{{ $ctrl.recipe.mainImageUrl }}" />`
 
 But we are creating an image switcher so we will create a new function in the component:
-
 
 ```
 self.setImage = function setImage(imageUrl) {
@@ -506,7 +539,19 @@ And make the following change to the template:
 
 `<img ng-src="img/home/{{$ctrl.mainImageUrl}}" class="recipe-detail-image" />`
 
-We don't need `"mainImageUrl": "img/home/lasagna-1.png",` in the json since we are refering to the images array.
+We don't need `"mainImageUrl": "img/home/lasagna-1.png",` in the json since we are now refering to the images array.
+
+Add a list of images we can click on to swap out the main image:
+
+```
+<ul class="recipe-thumbs">
+    <li ng-repeat="img in $ctrl.recipe.images">
+    <img ng-src="img/home/{{img}}" ng-click="$ctrl.setImage(img)" />
+    </li>
+</ul>
+```
+We shoud be able to click on one of the images in the list to swap out the main image but we need some formatting.
+
 
 ###SASS
 
@@ -529,16 +574,6 @@ Add sass to `_recipes.scss` to control the display of the main image:
 }
 
 ```
-
-```
-<ul class="recipe-thumbs">
-    <li ng-repeat="img in $ctrl.recipe.images">
-    <img ng-src="img/home/{{img}}" ng-click="$ctrl.setImage(img)" />
-    </li>
-</ul>
-```
-
-
 
 
 ##Homework
