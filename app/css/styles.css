@@ -12,6 +12,7 @@ html, body {
 
 a {
   text-decoration: none;
+  color: #600;
 }
 
 ul {
@@ -93,7 +94,7 @@ article h2 {
 
 @media (min-width: 46.25rem) {
   article {
-    margin: 2em 0 0 12em;
+    margin: 2em 0 0 2em;
   }
 }
 
@@ -121,13 +122,10 @@ ul {
 }
 
 img {
-  float: right;
+  width: 100%;
+  height: auto;
 }
 
-/*nav a:before {
-	padding-left: 1em;
-	content: "Q";
-	}*/
 .p-reviews .t-reviews,
 .p-recipes .t-recipes {
   color: #fff;
@@ -212,10 +210,6 @@ img {
   outline: 1px solid rgba(255, 0, 0, 0.5);
 }
 
-.p-home article {
-  margin-left: 1rem;
-}
-
 .recipes-list {
   display: flex;
   flex-wrap: wrap;
@@ -246,10 +240,6 @@ img {
   .recipes-list img {
     width: 50%;
   }
-}
-
-a {
-  color: #600;
 }
 
 /*# sourceMappingURL=styles.css.map */
