@@ -118,11 +118,11 @@ Convert the template into an external file:
 ```js
 templateUrl: 'recipe-list/recipe-list.template.html',
 ```
-Note the use of templateUrl and that this link it relative to index.html
+Note the use of `templateUrl` and that this link is relative to index.html
 
 ###Styling the Recipes
 
-Make these changes in the _basics sass file:
+Make these changes in the `_basics.scss` sass file:
 
 ```css
 article {
@@ -131,11 +131,12 @@ article {
         margin: 2em 1em 0 1em;
     }
 }
-
+...
 a {
-    color: $reddish;
+	text-decoration: none;
+	color: $reddish;
 }
-
+...
 img {
     width: 100%;
     height: auto;
@@ -144,7 +145,7 @@ img {
 
 * create a new `_recipes.scss` file
 * add it to the imports in `styles.scss
-* add a class to the ul `<ul class="recipes-list">`
+* add a class to the ul `<ul class="recipes-list">` (Note: this may require a restart of the server.)
 ```css
 .recipes-list {
     display: flex;
@@ -202,6 +203,10 @@ Be sure to include references to each in `index.html`:
 <script src="recipe-list/recipe-list.component.js"></script>
 ```
 
+There should be no change to the browser view. Check to ensure there are no errors.
+
+
+
 ###Search / Sort Filter
 
 Add a search input field to the top of `recipe-list.template.html`. Note the use of [ng-model](https://docs.angularjs.org/api/ng/directive/ngModel):
@@ -254,7 +259,7 @@ Here we use `recipes.json` in the data folder instead of keeping the data model 
 We fetch the dataset from our server using one of Angular's built-in services called [$http](https://docs.angularjs.org/api/ng/service/$http). We will use Angular's [dependency injection (DI)](https://docs.angularjs.org/guide/di) to provide the service to the recipeList component's controller.
 
 $http
-* a core Angular service that facilitates communication with the remote HTTP servers via
+* a core Angular service that facilitates communication with the remote HTTP servers
 * core = built into Angular
 * need to make it available to our controller via [dependency injection](https://docs.angularjs.org/guide/di).
 
@@ -286,7 +291,7 @@ $http.get('data/recipes.json').then(function (response) {
 * `then` is a promise which runs the following function when the data is received (the `response`):
 * since we want the `response.data` to belong to the RecipeListController function we assign it to `self.recipes`.
 
-we should see no change to the view but the data is now being accessed via http from the data folder.
+We should see no change to the view but the data is now being accessed via http from the data folder.
 
 Here is the complete component:
 
@@ -459,15 +464,13 @@ Link to recipe-detail files:
 ```
 <head>
     ...
-    <script src="recipe-list/recipe-list.module.js"></script>
-    <script src="recipe-list/recipe-list.component.js"></script>
     <script src="recipe-detail/recipe-detail.module.js"></script>
     <script src="recipe-detail/recipe-detail.component.js"></script>
-    <link rel="stylesheet" type="text/css" href="css/styles.css">
+    ...
 </head>
 ```
 
-Clicking on the recipe links in the main view should take you to our stub template.
+Clicking on the recipe links in the main view should take you to our stub template. Note: because of the order we used to create this module you may need to restart gulp.
 
 
 
@@ -507,7 +510,7 @@ Create `recipe-detail/recipe-detail.template.html`
 </div>
 ```
 
-Edit `recipe-detail/recipe-detail.component.js`
+Edit `recipe-detail/recipe-detail.component.js` to use templateUrl:
 
 ```js
 angular.module('recipeDetail').component('recipeDetail', {
@@ -546,9 +549,9 @@ To finish this exercise we will implement an image switcher similar to the one w
 
 Set the html template for the detail view to show one main image using this portion of the json: `"mainImageUrl": "img/home/lasagna-1.png",`
 
-To get the image to display we could add: `<img ng-src="{{ $ctrl.recipe.mainImageUrl }}" />`
+To get an image to display we add: `<img ng-src="{{ $ctrl.recipe.mainImageUrl }}" />` to the template.
 
-But we are creating an image switcher so we will create a new function in the component:
+But we are creating an image switcher so we will create a new function in the recipe-detail.component:
 
 ```
 self.setImage = function setImage(imageUrl) {
@@ -584,7 +587,6 @@ Add sass to `_recipes.scss` to control the display of the main image:
 
 ```css
 .recipe-detail-image {
-    width: 100%;
     margin-top: 1rem;
 }
 .recipe-thumbs {
@@ -592,7 +594,6 @@ Add sass to `_recipes.scss` to control the display of the main image:
     margin: 1rem 0;
     display: flex;
     img {
-        width: 100%;
         padding: 0 0.5rem;
     }
 }
@@ -602,9 +603,11 @@ Add sass to `_recipes.scss` to control the display of the main image:
 
 ##Homework
 
-1. Complete the json file for lasagne adding additional ingredients and directions. You can use [this recipe](http://allrecipes.com/recipe/23600/worlds-best-lasagna/) as an example.
+1. Complete the json file for lasagne by adding additional ingredients and directions. You can use [this recipe](http://allrecipes.com/recipe/23600/worlds-best-lasagna/) as an example.
 
-2. Create a wide screen view for the recipe by extending the recipe sass file and the template. 
+2. Create a second json file for an additional recipe
+
+3. Create a wide screen view for the recipe by extending the recipe sass file and - if needed - editing the template. 
 
 
 ##Reading
