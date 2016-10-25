@@ -247,14 +247,14 @@ Add a line to the controller in `recipe-list.component.js` after the recipes arr
 
 ###Fetching the Data
 
-Here we use `recipes.json` in the data folder instead of keeping the model in the controller. 
+Here we use `recipes.json` in the data folder instead of keeping the data model in the controller. 
 
 We fetch the dataset from our server using one of Angular's built-in services called [$http](https://docs.angularjs.org/api/ng/service/$http). We will use Angular's [dependency injection (DI)](https://docs.angularjs.org/guide/di) to provide the service to the recipeList component's controller.
 
 $http
-* a service
-* built into core Angular
-* need to make it available to our controller via dependency injection.
+* a core Angular service that facilitates communication with the remote HTTP servers via
+* core = built into Angular
+* need to make it available to our controller via [dependency injection](https://docs.angularjs.org/guide/di).
 
 In `recipe-list.component.js` make $http available to the controller:
 
@@ -282,7 +282,9 @@ $http.get('data/recipes.json').then(function (response) {
 ```
 
 * `then` is a promise which runs the following function when the data is received (the `response`):
-* since we want the `response.data` to belong to the RecipeListController function we assign it to `self.recipes`
+* since we want the `response.data` to belong to the RecipeListController function we assign it to `self.recipes`.
+
+we should see no change to the view but the data is now being accessed via http from the data folder.
 
 Here is the complete component:
 
