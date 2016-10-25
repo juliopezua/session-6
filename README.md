@@ -3,6 +3,8 @@
 
 ##Sushi - continued
 
+Fork today's repo into your Github account and then clone it to your Desktop.
+
 
 ###Angularize and Componentize
 
