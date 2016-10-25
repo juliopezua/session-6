@@ -1,4 +1,5 @@
 angular.module('recipeApp', [
-	'ngRoute',
+    'ngRoute',
+    'recipeDetail',
     'recipeList'
 ]);
