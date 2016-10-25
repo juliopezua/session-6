@@ -410,12 +410,12 @@ The config file makes provision for a recipe-detail template. We will create tha
 
 
 
+
 ###Creating the Recipe Details Component
 
+Create a `recipe-detail` directory in the app folder.
 
-Create a `recipe-detail` directory in app.
-
-Create stubs for recipe details in a new `recipe-detail` directory:
+Create stubs for recipe details in the new `recipe-detail` directory:
 
 `recipe-detail/recipe-detail.module.js`:
 
@@ -425,12 +425,13 @@ angular.module('recipeDetail', [
 ]);
 ```
 
-We inject the routeParams service into our controller so that we can extract the recipeId.
+We inject ngRoute into the recipeDetail module since we will be needing it.
+
+We can then inject the routeParams service of ngRoute into our controller so that we can extract the recipeId.
 
 `recipe-detail.component.js`
 ```
-angular.
-    module('recipeDetail').
+angular.module('recipeDetail').
     component('recipeDetail', {
         template: '<p>Detail view for <span>{{$ctrl.recipeId}}</span></p>',
         controller: ['$routeParams',
@@ -455,13 +456,7 @@ Link to recipe-detail files:
 
 ```
 <head>
-    <meta charset="UTF-8">
-    <title>Brooklyn Eats: Matsu</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="https://code.angularjs.org/1.5.8/angular.js"></script>
-    <script src="https://code.angularjs.org/1.5.8/angular-route.js"></script>
-    <script src="app.module.js"></script>
-    <script src="app.config.js"></script>
+    ...
     <script src="recipe-list/recipe-list.module.js"></script>
     <script src="recipe-list/recipe-list.component.js"></script>
     <script src="recipe-detail/recipe-detail.module.js"></script>
@@ -470,7 +465,7 @@ Link to recipe-detail files:
 </head>
 ```
 
-Click on the recipe links in the main view. They should take you to our stub template.
+Clicking on the recipe links in the main view should take you to our stub template.
 
 
 
