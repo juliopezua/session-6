@@ -354,6 +354,23 @@ angular.module('recipeApp').
     ]);
 ```
 
+Alt version without min protection:
+
+```
+angular.module('recipeApp').config(
+    function config($locationProvider, $routeProvider) {
+        $locationProvider.hashPrefix('!');
+        $routeProvider.
+        when('/', {
+            template: '<recipe-list></recipe-list>'
+        }).
+        when('/recipes/:recipeId', {
+            template: '<recipe-detail></recipe-detail>'
+        }).
+        otherwise('/recipes');
+    });
+```
+
 * `otherwise` - defines a fallback route to redirect to, when no route definition matches the current URL
 * `:recipeId` - the $route service uses the route declaration — '/phones/:recipeId' — as a template that is matched against the current URL. All variables defined with the : prefix are extracted into the (injectable) $routeParams object.
 
