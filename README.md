@@ -580,20 +580,12 @@ We shoud now be able to click on one of the images in the list to swap out the m
 
 ###SASS
 
-Remove the img float sass from `_basics.scss` and add:
-
-```css
-img {
-    width: 100%;
-    height: auto;
-}
-```
-
 Add sass to `_recipes.scss` to control the display of the main image:
 
 ```css
 .recipe-detail-image {
     width: 100%;
+    margin-top: 1rem;
 }
 .recipe-thumbs {
     width: 100%;
