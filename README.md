@@ -600,7 +600,7 @@ Add sass to `_recipes.scss` to control the display of the main image:
 
 ```
 
-
+ 
 ##Homework
 
 1. Complete the json file for lasagne by adding additional ingredients and directions. You can use [this recipe](http://allrecipes.com/recipe/23600/worlds-best-lasagna/) as an example.
