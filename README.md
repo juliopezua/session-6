@@ -402,7 +402,9 @@ To:
 </article>
 ```
 
-The $route service is usually used in conjunction with ngView - a directive that complements the $route service by including the rendered template of the current route into the main layout. The role of the ngView directive is to include the view template for the current route into the layout template. 
+Routing is usually used in conjunction with ngView - a directive that complements the $route service by including the rendered template of the current route into the main layout. The ngView directive includes the view template for the current route into the layout template. 
+
+Here we see nothing when we click on a recipe. That is because there is no defined view associated with the detail route.
 
 The config file makes provision for a recipe-detail template. We will create that now.
 
