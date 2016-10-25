@@ -542,13 +542,11 @@ angular.module('recipeDetail').component('recipeDetail', {
 
 ##Adding an Image Swapper
 
-To finish this exercise we will implement an image switcher similar to the one we created in earlier lessons.
+To finish this exercise we will implement an image switcher similar to the one we created in earlier lessons but using our recipe-details.component.
 
 Set the html template for the detail view to show one main image using this portion of the json: `"mainImageUrl": "img/home/lasagna-1.png",`
 
-To get the image to display we could add:
-
-`<img ng-src="{{ $ctrl.recipe.mainImageUrl }}" />`
+To get the image to display we could add: `<img ng-src="{{ $ctrl.recipe.mainImageUrl }}" />`
 
 But we are creating an image switcher so we will create a new function in the component:
 
@@ -558,26 +556,26 @@ self.setImage = function setImage(imageUrl) {
 };
 ```
 
-Followed by a call to the function in the promise function:
+Followed by a call to the function in the promise function to initialize the first image:
 
 `self.setImage(self.recipe.images[0]);`
 
-And make the following change to the template:
+And make the following change to the template, adding a class for styling and a source which uses the `mainImageUrl` variable we created in the controller:
 
 `<img ng-src="img/home/{{$ctrl.mainImageUrl}}" class="recipe-detail-image" />`
 
-We don't need `"mainImageUrl": "img/home/lasagna-1.png",` in the json since we are now refering to the images array.
+(Note: we don't need `"mainImageUrl": "img/home/lasagna-1.png",` in the json since we are now refering to the images array.)
 
-Add a list of images we can click on to swap out the main image. Note the `ng-click` directive:
+Add a list of images to the template that we will click on to swap out the main image. Note the `ng-click` directive and its call to the setImage function we created earlier:
 
 ```
 <ul class="recipe-thumbs">
     <li ng-repeat="img in $ctrl.recipe.images">
-    <img ng-src="img/home/{{img}}" ng-click="$ctrl.setImage(img)" />
+        <img ng-src="img/home/{{img}}" ng-click="$ctrl.setImage(img)" />
     </li>
 </ul>
 ```
-We shoud be able to click on one of the images in the list to swap out the main image but we need some formatting.
+We shoud now be able to click on one of the images in the list to swap out the main image but we need some formatting.
 
 
 ###SASS
