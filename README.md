@@ -315,7 +315,7 @@ Use the `recipe.name` expression in the html template:
 
 `<h1><a href="#!recipes/{{ recipe.name }} ">{{ recipe.title }}</a></h1>`
 
-Note we are hard coding `#!recipes/` and accessing recipe.name from the json. Also, the hash bang. 
+Note we are hard coding `#!recipes/` and accessing recipe.name from the json. Also, the hash bang. Now, clicking on the individual recipe shows a new address in the browser's location bar. (Resist the temptation to use the navbar on the top of the document for now. It is not part of the angular application.)
 
 Add ngRoute to index.html after the main angular load:
 
@@ -356,7 +356,7 @@ angular.module('recipeApp').
 
 Alt version without min protection:
 
-```
+```js
 angular.module('recipeApp').config(
     function config($locationProvider, $routeProvider) {
         $locationProvider.hashPrefix('!');
@@ -378,8 +378,6 @@ Add a link to `app.config.js` to index.html (after the app.module.js):
 
 `<script src="app.config.js"></script>`
 
-Now, clicking on the individual recipe shows a new address in the browser's location bar. (Resist the temptation to use the navbar on the top of the document for now. It is not part of the angular application.)
-
 We optionally used $locationProvider.hashPrefix() to set the hash-prefix (`#`) to !. This prefix will appear in the links to our client-side routes, right after the hash (`#`) symbol and before the actual path (e.g. index.html#!/some/path).
 
 Setting a prefix is not necessary, but it is considered a good practice. ! is the most commonly used prefix. The recipe-template included the `!`:
@@ -388,13 +386,30 @@ Setting a prefix is not necessary, but it is considered a good practice. ! is th
 <h1><a href="#!recipes/{{ recipe.name }} ">{{ recipe.title }}</a></h1>
 ```
 
-Refresh the page and try clicking on the links again. Note the `!`.
+Edit index.html from:
+
+```html
+<article ng-app="recipeApp">
+    <recipe-list></recipe-list>
+</article>
+```
+
+To:
+
+```html
+<article ng-app="recipeApp">
+    <div ng-view></div>
+</article>
+```
+
+The $route service is usually used in conjunction with ngView - a directive that complements the $route service by including the rendered template of the current route into the main layout. The role of the ngView directive is to include the view template for the current route into the layout template. 
+
+The config file makes provision for a recipe-detail template. We will create that now.
 
 
 
 ###Creating the Recipe Details Component
 
-Note that the config file makes provision for a recipe-detail template. We will create that now.
 
 Create a `recipe-detail` directory in app.
 
@@ -452,24 +467,6 @@ Link to recipe-detail files:
     <link rel="stylesheet" type="text/css" href="css/styles.css">
 </head>
 ```
-
-Edit index.html from:
-
-```html
-<article ng-app="recipeApp">
-    <recipe-list></recipe-list>
-</article>
-```
-
-To:
-
-```html
-<article ng-app="recipeApp">
-    <div ng-view></div>
-</article>
-```
-
-The $route service is usually used in conjunction with the ngView directive. The role of the ngView directive is to include the view template for the current route into the layout template.
 
 Click on the recipe links in the main view. They should take you to our stub template.
 
