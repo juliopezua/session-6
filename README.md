@@ -3,6 +3,8 @@
 
 ##Sushi - continued
 
+Fork today's repo into your Github account and then clone it to your Desktop.
+
 
 ###Angularize and Componentize
 
@@ -125,9 +127,9 @@ Make these changes in the _basics sass file:
 ```css
 article {
     ...
-	@media (min-width: $break-one) {
-		margin: 2em 1em 0 1em;
-	}
+    @media (min-width: $break-one) {
+        margin: 2em 1em 0 1em;
+    }
 }
 
 a {
@@ -315,7 +317,7 @@ Use the `recipe.name` expression in the html template:
 
 `<h1><a href="#!recipes/{{ recipe.name }} ">{{ recipe.title }}</a></h1>`
 
-Note we are hard coding `#!recipes/` and accessing recipe.name from the json. Also, the hash bang. 
+Note we are hard coding `#!recipes/` and accessing recipe.name from the json. Also, the hash bang. Now, clicking on the individual recipe shows a new address in the browser's location bar. (Resist the temptation to use the navbar on the top of the document for now. It is not part of the angular application.)
 
 Add ngRoute to index.html after the main angular load:
 
@@ -354,14 +356,29 @@ angular.module('recipeApp').
     ]);
 ```
 
+Alt version without min protection:
+
+```js
+angular.module('recipeApp').config(
+    function config($locationProvider, $routeProvider) {
+        $locationProvider.hashPrefix('!');
+        $routeProvider.
+        when('/', {
+            template: '<recipe-list></recipe-list>'
+        }).
+        when('/recipes/:recipeId', {
+            template: '<recipe-detail></recipe-detail>'
+        }).
+        otherwise('/recipes');
+    });
+```
+
 * `otherwise` - defines a fallback route to redirect to, when no route definition matches the current URL
 * `:recipeId` - the $route service uses the route declaration — '/phones/:recipeId' — as a template that is matched against the current URL. All variables defined with the : prefix are extracted into the (injectable) $routeParams object.
 
 Add a link to `app.config.js` to index.html (after the app.module.js):
 
 `<script src="app.config.js"></script>`
-
-Now, clicking on the individual recipe shows a new address in the browser's location bar. (Resist the temptation to use the navbar on the top of the document for now. It is not part of the angular application.)
 
 We optionally used $locationProvider.hashPrefix() to set the hash-prefix (`#`) to !. This prefix will appear in the links to our client-side routes, right after the hash (`#`) symbol and before the actual path (e.g. index.html#!/some/path).
 
@@ -371,17 +388,36 @@ Setting a prefix is not necessary, but it is considered a good practice. ! is th
 <h1><a href="#!recipes/{{ recipe.name }} ">{{ recipe.title }}</a></h1>
 ```
 
-Refresh the page and try clicking on the links again. Note the `!`.
+Edit index.html from:
+
+```html
+<article ng-app="recipeApp">
+    <recipe-list></recipe-list>
+</article>
+```
+
+To:
+
+```html
+<article ng-app="recipeApp">
+    <div ng-view></div>
+</article>
+```
+
+Routing is usually used in conjunction with ngView - a directive that complements the $route service by including the rendered template of the current route into the main layout. The ngView directive includes the view template for the current route into the layout template. 
+
+Here we see nothing when we click on a recipe. That is because there is no defined view associated with the detail route.
+
+The config file makes provision for a recipe-detail template. We will create that now.
+
 
 
 
 ###Creating the Recipe Details Component
 
-Note that the config file makes provision for a recipe-detail template. We will create that now.
+Create a `recipe-detail` directory in the app folder.
 
-Create a `recipe-detail` directory in app.
-
-Create stubs for recipe details in a new `recipe-detail` directory:
+Create stubs for recipe details in the new `recipe-detail` directory:
 
 `recipe-detail/recipe-detail.module.js`:
 
@@ -391,12 +427,13 @@ angular.module('recipeDetail', [
 ]);
 ```
 
-We inject the routeParams service into our controller so that we can extract the recipeId.
+We inject ngRoute into the recipeDetail module since we will be needing it.
+
+We can then inject the routeParams service of ngRoute into our controller so that we can extract the recipeId.
 
 `recipe-detail.component.js`
 ```
-angular.
-    module('recipeDetail').
+angular.module('recipeDetail').
     component('recipeDetail', {
         template: '<p>Detail view for <span>{{$ctrl.recipeId}}</span></p>',
         controller: ['$routeParams',
@@ -421,13 +458,7 @@ Link to recipe-detail files:
 
 ```
 <head>
-    <meta charset="UTF-8">
-    <title>Brooklyn Eats: Matsu</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="https://code.angularjs.org/1.5.8/angular.js"></script>
-    <script src="https://code.angularjs.org/1.5.8/angular-route.js"></script>
-    <script src="app.module.js"></script>
-    <script src="app.config.js"></script>
+    ...
     <script src="recipe-list/recipe-list.module.js"></script>
     <script src="recipe-list/recipe-list.component.js"></script>
     <script src="recipe-detail/recipe-detail.module.js"></script>
@@ -436,25 +467,7 @@ Link to recipe-detail files:
 </head>
 ```
 
-Edit index.html from:
-
-```html
-<article ng-app="recipeApp">
-    <recipe-list></recipe-list>
-</article>
-```
-
-To:
-
-```html
-<article ng-app="recipeApp">
-    <div ng-view></div>
-</article>
-```
-
-The $route service is usually used in conjunction with the ngView directive. The role of the ngView directive is to include the view template for the current route into the layout template.
-
-Click on the recipe links in the main view. They should take you to our stub template.
+Clicking on the recipe links in the main view should take you to our stub template.
 
 
 
@@ -529,13 +542,11 @@ angular.module('recipeDetail').component('recipeDetail', {
 
 ##Adding an Image Swapper
 
-To finish this exercise we will implement an image switcher similar to the one we created in earlier lessons.
+To finish this exercise we will implement an image switcher similar to the one we created in earlier lessons but using our recipe-details.component.
 
 Set the html template for the detail view to show one main image using this portion of the json: `"mainImageUrl": "img/home/lasagna-1.png",`
 
-To get the image to display we could add:
-
-`<img ng-src="{{ $ctrl.recipe.mainImageUrl }}" />`
+To get the image to display we could add: `<img ng-src="{{ $ctrl.recipe.mainImageUrl }}" />`
 
 But we are creating an image switcher so we will create a new function in the component:
 
@@ -545,44 +556,36 @@ self.setImage = function setImage(imageUrl) {
 };
 ```
 
-Followed by a call to the function in the promise function:
+Followed by a call to the function in the promise function to initialize the first image:
 
 `self.setImage(self.recipe.images[0]);`
 
-And make the following change to the template:
+And make the following change to the template, adding a class for styling and a source which uses the `mainImageUrl` variable we created in the controller:
 
 `<img ng-src="img/home/{{$ctrl.mainImageUrl}}" class="recipe-detail-image" />`
 
-We don't need `"mainImageUrl": "img/home/lasagna-1.png",` in the json since we are now refering to the images array.
+(Note: we don't need `"mainImageUrl": "img/home/lasagna-1.png",` in the json since we are now refering to the images array.)
 
-Add a list of images we can click on to swap out the main image. Note the `ng-click` directive:
+Add a list of images to the template that we will click on to swap out the main image. Note the `ng-click` directive and its call to the setImage function we created earlier:
 
 ```
 <ul class="recipe-thumbs">
     <li ng-repeat="img in $ctrl.recipe.images">
-    <img ng-src="img/home/{{img}}" ng-click="$ctrl.setImage(img)" />
+        <img ng-src="img/home/{{img}}" ng-click="$ctrl.setImage(img)" />
     </li>
 </ul>
 ```
-We shoud be able to click on one of the images in the list to swap out the main image but we need some formatting.
+We shoud now be able to click on one of the images in the list to swap out the main image but we need some formatting.
 
 
 ###SASS
-
-Remove the img float sass from `_basics.scss` and add:
-
-```css
-img {
-	width: 100%;
-	height: auto;
-}
-```
 
 Add sass to `_recipes.scss` to control the display of the main image:
 
 ```css
 .recipe-detail-image {
     width: 100%;
+    margin-top: 1rem;
 }
 .recipe-thumbs {
     width: 100%;
