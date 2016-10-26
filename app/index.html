@@ -7,7 +7,9 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<link rel="stylesheet" type="text/css" href="css/styles.css">
 	<script src="https://code.angularjs.org/1.5.8/angular.js"></script>
+	<script src="https://code.angularjs.org/1.5.8/angular-route.js"></script>
 	<script src="app.module.js"></script>
+	<script src="app.config.js"></script>
 	<script src="recipe-list/recipe-list.module.js"></script>
 	<script src="recipe-list/recipe-list.component.js"></script>
 </head>
@@ -69,6 +71,7 @@
 			<h2>A Guide to Fine North Brooklyn Dining</h2>
 		</header>
 		<article ng-app="recipeApp">
+			<div ng-view></div>
 			<recipe-list></recipe-list>
 		</article>
 	</div>
