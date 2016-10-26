@@ -210,6 +210,20 @@ img {
   outline: 1px solid rgba(255, 0, 0, 0.5);
 }
 
+.recipe-detail-image {
+  margin-top: 1rem;
+}
+
+.recipe-thumbs {
+  width: 100%;
+  margin: 1rem 0;
+  display: flex;
+}
+
+.recipe-thumbs img {
+  padding: 0 0.5rem;
+}
+
 .recipes-list {
   display: flex;
   flex-wrap: wrap;
